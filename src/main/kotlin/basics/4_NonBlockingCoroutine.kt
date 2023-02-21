@@ -14,7 +14,7 @@ fun main() {
                 printlnComplicated(arg = "2")
             }
             println("3 from ${currentThread().name}")
-            delay(timeMillis = 1_000)
+            //delay(timeMillis = 1_000)
         }
     }.also { println("Execution took $it ms") }
 }

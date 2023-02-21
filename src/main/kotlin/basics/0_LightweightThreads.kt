@@ -7,7 +7,7 @@ import kotlin.system.measureTimeMillis
 
 suspend fun main() {
     measureTimeMillis {
-        val jobs = List(1_000_000) {
+        val jobs = List(4_000_000) {
             GlobalScope.launch {
                 delay(1_000)
             }

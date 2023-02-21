@@ -5,7 +5,7 @@ import kotlin.system.measureTimeMillis
 
 fun main() {
     measureTimeMillis {
-        val jobs = List(6_000) {
+        val jobs = List(4_000) {
             thread {
                 Thread.sleep(1_000)
             }
