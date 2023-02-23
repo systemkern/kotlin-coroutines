@@ -1,6 +1,7 @@
 package basics
 
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.lang.Thread.currentThread
@@ -13,6 +14,7 @@ fun main() {
             val job = launch(Dispatchers.Default) {
                 printlnComplicated(arg = "2")
             }
+            delay(20)
             job.cancel()
             println("3 from ${currentThread().name}")
         }

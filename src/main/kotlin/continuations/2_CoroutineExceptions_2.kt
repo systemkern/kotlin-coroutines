@@ -1,10 +1,9 @@
 package continuations
 
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
-import javax.management.loading.ClassLoaderRepository
-import kotlin.system.exitProcess
 
 /**
  * This example will show how multiple exceptions are propagated properly through a coroutine scope.
@@ -17,21 +16,26 @@ fun main() {
     displayQuote(listOf(4_000, 3_000, 2_000, 1_000))
 }
 
-private fun displayQuote(args: List<Int>) {
+private fun displayQuote(args: List<Long>) {
     try {
         runBlocking(Default) {
-            args.map { async { download(it) } }
-                .forEach { println("await: " + it.await()) }
+            args.map { it: Long ->
+                async { download(it) }
+            }
+            .forEach { it: Deferred<String> ->
+                println("await: " + it.await())
+            }
         }
     } catch (e: Throwable) {
-        println(e)
-        e.suppressed.forEach { println(it) }
-        println()
+        println("--- $e")
+        e.suppressed.forEach { println("+++ $it") }
+        println("<><><><><><><><><><><><><><><><><><>")
         throw e
     }
 }
 
-private fun download(arg: Int): String {
-    Thread.sleep(arg.toLong())
+private fun download(arg: Long): String {
+    /* do long-running work */
+    Thread.sleep(arg)
     throw Exception("Worker Exception $arg")
 }
